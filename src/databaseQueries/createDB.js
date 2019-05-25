@@ -1,20 +1,15 @@
-const mysql = require('mysql');
+const mysql = require('promise-mysql');
 const {
   host, user, password,
 } = require('./dbParameters');
 
-const con = mysql.createConnection({
+const createDatabase = () => mysql.createConnection({
   host,
   user,
   password,
+}).then((conn) => {
+  const result = conn.query('CREATE DATABASE IF NOT EXISTS todoApp');
+  conn.end();
+  return result;
 });
-const createDatabase = () => {
-  con.connect((err) => {
-    if (err) throw err;
-    con.query('CREATE DATABASE IF NOT EXISTS todoApp', (error, result) => {
-      if (error) throw error;
-      console.log('Database created', result);
-    });
-  });
-};
 module.exports = createDatabase;
