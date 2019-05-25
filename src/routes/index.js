@@ -1,5 +1,9 @@
 const url = require('url');
 const pingHandler = require('./ping');
+const getTasks = require('./getTasks');
+const addTask = require('./addTask');
+const updateTask = require('./updateTask');
+const removeTask = require('./removeTask');
 
 const routeHandler = (req, res) => {
   const path = url.parse(req.url, true).pathname;
@@ -8,6 +12,36 @@ const routeHandler = (req, res) => {
     switch (path) {
       case '/ping':
         pingHandler(req, res);
+        break;
+      case '/tasks':
+        getTasks(req, res);
+        break;
+      default:
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end('Incorrect URL');
+    }
+  } else if (requestMethod === 'POST') {
+    switch (path) {
+      case '/addTask':
+        addTask(req, res);
+        break;
+      default:
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end('Incorrect URL');
+    }
+  } else if (requestMethod === 'PUT') {
+    switch (path) {
+      case '/updateTask':
+        updateTask(req, res);
+        break;
+      default:
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end('Incorrect URL');
+    }
+  } else if (requestMethod === 'DELETE') {
+    switch (path) {
+      case '/removeTask':
+        removeTask(req, res);
         break;
       default:
         res.writeHead(200, { 'Content-Type': 'application/json' });
