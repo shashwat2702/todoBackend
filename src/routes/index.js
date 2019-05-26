@@ -40,9 +40,10 @@ const routeHandler = (req, res) => {
         res.end('Incorrect URL');
     }
   } else if (requestMethod === 'DELETE') {
-    switch (path) {
-      case '/removeTask':
-        removeTask(req, res);
+    const parsedPath = path.split('/');
+    switch (parsedPath[1]) {
+      case 'removeTask':
+        removeTask(parsedPath[2], res);
         break;
       default:
         res.writeHead(200, { 'Content-Type': 'application/json' });
