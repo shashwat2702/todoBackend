@@ -30,9 +30,10 @@ const routeHandler = (req, res) => {
         res.end('Incorrect URL');
     }
   } else if (requestMethod === 'PUT') {
-    switch (path) {
-      case '/updateTask':
-        updateTask(req, res);
+    const parsedPath = path.split('/');
+    switch (parsedPath[1]) {
+      case 'updateTask':
+        updateTask(req, res, parsedPath[2]);
         break;
       default:
         res.writeHead(200, { 'Content-Type': 'application/json' });
