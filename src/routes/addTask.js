@@ -8,13 +8,14 @@ const addTask = async (req, res) => {
     body += chunk.toString();
   });
   await req.on('end', async () => {
-    const taskToBeAdded = parse(body).task;
-    const mysqlResponse = await addOneTask(taskToBeAdded);
+    const receivedObject = parse(body);
+    const taskToBeAdded = Object.keys(receivedObject);
+    const mysqlResponse = await addOneTask(taskToBeAdded[0]);
     if (mysqlResponse.affectedRows === 1) {
       const responseObject = {
         inserted: true,
         taskId: mysqlResponse.insertId,
-        task: taskToBeAdded,
+        task: taskToBeAdded[0],
       };
       const response = JSON.stringify(responseObject);
       res.end(response);
